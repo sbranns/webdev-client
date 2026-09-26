@@ -4,7 +4,9 @@ export default function Labs() {
   return (
     <div id="wd-labs">
       <ul>
-        <h3>Samuel Brannstrom</h3>
+        <li>
+          Samuel Brannstrom
+        </li>
         <li>
           <Link href="/labs">Home</Link>
         </li>
