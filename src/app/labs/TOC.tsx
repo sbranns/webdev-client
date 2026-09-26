@@ -4,17 +4,14 @@ export default function Labs() {
   return (
     <div id="wd-labs">
       <h3>Samuel Brannstrom</h3>
-      <a id="wd-github" href="https://github.com/sbranns" target="_blank">My GitHub</a>
+      <a id="wd-github" href="https://github.com/sbranns" target="_blank">
+        My GitHub
+      </a>
       <br />
       <ul>
         <li>
           <Link href="/labs">Home</Link>
         </li>
-        <li>
-        <Link href="/" id="wd-kambaz-link">
-          Kambaz
-        </Link>
-      </li>
         <li>
           <Link href="/labs/lab1">Lab 1</Link>
         </li>
@@ -25,7 +22,9 @@ export default function Labs() {
           <Link href="/labs/lab3">Lab 3</Link>
         </li>
         <li>
-          <Link href="/labs/lab4">Kambaz</Link>
+          <Link href="/" id="wd-kambaz-link">
+            Kambaz
+          </Link>
         </li>
         <li>
           <Link id="wd-toc-book-link" href="/book/ch1">
