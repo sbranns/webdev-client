@@ -3,10 +3,8 @@ import Link from "next/link";
 export default function Labs() {
   return (
     <div id="wd-labs">
+      <h3>Samuel Brannstrom</h3>
       <ul>
-        <li>
-          Samuel Brannstrom
-        </li>
         <li>
           <Link href="/labs">Home</Link>
         </li>
