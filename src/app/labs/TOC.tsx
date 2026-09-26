@@ -4,6 +4,9 @@ export default function Labs() {
   return (
     <div id="wd-labs">
       <h3>Samuel Brannstrom</h3>
+      <br />
+      <a id="wd-github" href="https://github.com/sbranns" target="_blank">My GitHub</a>
+      <br />
       <ul>
         <li>
           <Link href="/labs">Home</Link>
