@@ -35,12 +35,30 @@ export default function Positions() {
           <div className="wd-pos-absolute-120-20 wd-bg-color-red wd-dimension-square">
             Square
           </div>
-          <div id="wd-ai-absolute" className="wd-ai-pos-absolute-br wd-bg-color-yellow wd-dimension-square">
+          <div
+            id="wd-ai-absolute"
+            className="wd-ai-pos-absolute-br wd-bg-color-yellow wd-dimension-square"
+          >
             AI absolute
           </div>
           <div className="wd-pos-absolute-200-50 wd-bg-color-red wd-dimension-square">
             My absolute square
           </div>
+        </div>
+      </div>
+      <div id="wd-css-position-fixed">
+        <h2>Fixed position</h2>
+        Checkout the blue square that says &quot;Fixed position&quot; stuck all
+        the way on the right and half way down the page. It doesn&apos;t scroll
+        with the rest of the page. Its position is &quot;Fixed&quot;.
+        <div className="wd-pos-fixed wd-dimension-square wd-bg-color-blue wd-fg-color-white">
+          Fixed position
+        </div>
+        <div id="wd-ai-fixed" className="wd-ai-pos-fixed">
+          AI fixed
+        </div>
+        <div className="wd-my-pos-fixed wd-dimension-square wd-bg-color-red wd-fg-color-white">
+          My fixed position
         </div>
       </div>
     </div>
