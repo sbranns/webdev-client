@@ -49,6 +49,7 @@ export default function TOC() {
   const pathname = usePathname() ?? "";
   return (
     <>
+      <p>Sam Brannstrom</p>
       <a href="https://github.com/sbranns">My Github</a>
       <ul>
         {LINKS.map((link) => {
