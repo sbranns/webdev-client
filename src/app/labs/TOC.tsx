@@ -50,7 +50,7 @@ export default function TOC() {
   return (
     <>
       <p>Sam Brannstrom</p>
-      <a href="https://github.com/sbranns">My Github</a>
+      <a href="https://github.com/sbranns/webdev-client">My Github</a>
       <ul>
         {LINKS.map((link) => {
           const active = link.match(pathname);
