@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, deleteTodo, updateTodo } from "./todosReducer";
+import { addTodo, deleteTodo, ReduxTodo, updateTodo } from "./todosReducer";
 import type { RootState } from "./store";
 import TodoItem from "./TodoItem";
 
@@ -9,7 +9,7 @@ export default function TodoForm() {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("Learn Mongo");
   const [editingId, setEditingId] = useState<string | null>(null);
-  const onEdit = (todo) => {setTitle(todo.title); setEditingId(todo.id);}
+  const onEdit = (todo: ReduxTodo) => {setTitle(todo.title); setEditingId(todo.id);}
   return (
     <div id="wd-redux-todos">
       <h3>Redux Todo List</h3>

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import GreenCheckmark from "./ModuleControlButtons";
+import GreenCheckmark from "./GreenCheckmark";
 
 export default function Lesson({
   title,

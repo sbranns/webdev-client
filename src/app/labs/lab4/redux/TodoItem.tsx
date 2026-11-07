@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, deleteTodo, updateTodo } from "./todosReducer";
+import { addTodo, deleteTodo, updateTodo, ReduxTodo } from "./todosReducer";
 import type { RootState } from "./store";
 
-export default function TodoItem({ todo, onEdit }) {
+export default function TodoItem({
+	todo,
+	onEdit,
+}: {
+	todo: ReduxTodo;
+	onEdit: (todo: ReduxTodo) => void;
+}) {
   const dispatch = useDispatch();
   return (
           <li

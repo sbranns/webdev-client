@@ -7,6 +7,7 @@ export type Course = (typeof coursesJson)[number];
 
 const emptyCourse: Course = {
   _id: "0",
+  term: "Fall 2026",
   name: "New Course",
   number: "New Number",
   startDate: "2023-09-10",
@@ -14,7 +15,7 @@ const emptyCourse: Course = {
   department: "D123",
   credits: 4,
   description: "New Description",
-  image: "/images/reactjs.jpg",
+  image: "/images/reactjs.png",
 };
 
 type CoursesStore = {
