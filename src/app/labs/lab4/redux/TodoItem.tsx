@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodo, deleteTodo, updateTodo, ReduxTodo } from "./todosReducer";
-import type { RootState } from "./store";
+import { useDispatch } from "react-redux";
+import { deleteTodo, ReduxTodo } from "./todosReducer";
 
 export default function TodoItem({
 	todo,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, deleteTodo, ReduxTodo, updateTodo } from "./todosReducer";
+import { addTodo, ReduxTodo, updateTodo } from "./todosReducer";
 import type { RootState } from "./store";
 import TodoItem from "./TodoItem";
 

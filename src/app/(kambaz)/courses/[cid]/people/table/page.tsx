@@ -2,7 +2,6 @@
 
 import { FaUserCircle } from "react-icons/fa";
 import * as db from "../../../../database";
-import { emptyUser } from "@/app/(kambaz)/account/AccountContext";
 import { useEnrollmentsStore } from "@/app/(kambaz)/store/enrollmentsStore";
 import { useParams } from "next/navigation";
 

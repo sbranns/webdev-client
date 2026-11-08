@@ -2,8 +2,6 @@
 
 import { create } from "zustand";
 import enrollmentsJson from "../database/enrollments.json";
-import usersJson from "../database/users.json"
-import { emptyUser } from "../account/AccountContext";
 
 export type Enrollment = {
     "_id": string,

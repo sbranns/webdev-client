@@ -1,5 +1,4 @@
 "use client";
-import * as db from "../../../../database";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Assignment } from "@/app/(kambaz)/store/assignmentsStore";

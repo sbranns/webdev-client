@@ -13,16 +13,6 @@ export type Assignment = {
     available: string
 };
 
-const emptyAssignment: Assignment = {
-    _id: "A101",
-    title: "A1",
-    course: "RS101",
-    description: "Analyze the thermodynamics of a rocket combustion chamber and nozzle. Submit a short report covering chamber pressure, expansion ratio, and predicted specific impulse.",
-    points: 100,
-    due: "2024-05-13",
-    available: "2024-05-06"
-};
-
 type AssignmentsStore = {
   assignments: Assignment[];
   addAssignment: (assignment: Assignment) => void;
