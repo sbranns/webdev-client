@@ -15,6 +15,7 @@ export default function Dashboard() {
   const addCourse = useCoursesStore((state) => state.addCourse);
   const updateCourse = useCoursesStore((state) => state.updateCourse);
   const [course, setCourse] = useState<Course>(emptyCourse);
+  const [isEnrollments, setIsEnrollments] = useState(false);
   const { currentUser } = useAccountContext();
   const visibleCourses = currentUser
     ? courses.filter((c) =>
@@ -47,6 +48,14 @@ export default function Dashboard() {
         >
           Update
         </button>
+        <button
+          type="button"
+          className="ml-auto rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white"
+          id="wd-enrollments-course-click"
+          onClick={() => setIsEnrollments(!isEnrollments)}
+        >
+          Enrollments
+        </button>
       </h5>
       <input
         className="mb-2 mt-2 block w-full max-w-xl rounded border border-neutral-300 px-3 py-1.5"
@@ -58,9 +67,7 @@ export default function Dashboard() {
         className="mb-3 block w-full max-w-xl rounded border border-neutral-300 px-3 py-1.5"
         rows={3}
         value={course.description}
-        onChange={(e) =>
-          setCourse({ ...course, description: e.target.value })
-        }
+        onChange={(e) => setCourse({ ...course, description: e.target.value })}
         id="wd-course-description"
       />
       <input
@@ -70,29 +77,32 @@ export default function Dashboard() {
         onChange={(e) => setCourse({ ...course, number: e.target.value })}
         id="wd-course-number"
       />
-      <label>Start date
+      <label>
+        Start date
         <input
-        className="mb-2 mt-2 block w-full max-w-xl rounded border border-neutral-300 px-3 py-1.5"
-        type="date"
-        value={course.startDate}
-        onChange={(e) => setCourse({ ...course, startDate: e.target.value })}
-        id="wd-course-startDate"
-      />
+          className="mb-2 mt-2 block w-full max-w-xl rounded border border-neutral-300 px-3 py-1.5"
+          type="date"
+          value={course.startDate}
+          onChange={(e) => setCourse({ ...course, startDate: e.target.value })}
+          id="wd-course-startDate"
+        />
       </label>
       <hr />
-      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
+      {isEnrollments
+          ? <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
+          : <h2 id="wd-dashboard-published">Published Courses ({visibleCourses.length})</h2>}
       <hr />
       <div
         id="wd-dashboard-courses"
         className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
       >
-        {visibleCourses.map((c) => (
-          <CourseCard
-            key={c._id}
-            course={c}
-            onEdit={() => setCourse(c)}
-          />
-        ))}
+        {isEnrollments
+          ? courses.map((c) => (
+              <CourseCard key={c._id} course={c} onEdit={() => setCourse(c)} />
+            ))
+          : visibleCourses.map((c) => (
+              <CourseCard key={c._id} course={c} onEdit={() => setCourse(c)} />
+            ))}
       </div>
     </div>
   );

@@ -1,13 +1,15 @@
+"use client";
+
 import { FaUserCircle } from "react-icons/fa";
 import * as db from "../../../../database";
+import { emptyUser } from "@/app/(kambaz)/account/AccountContext";
+import { useEnrollmentsStore } from "@/app/(kambaz)/store/enrollmentsStore";
+import { useParams } from "next/navigation";
 
-export default async function PeopleTable({
-  params,
-}: {
-  params: Promise<{ cid: string }>;
-}) {
-  const { cid } = await params;
-  const { users, enrollments } = db;
+export default function PeopleTable() {
+  const { cid } = useParams();
+  const enrollments = useEnrollmentsStore((state) => state.enrollments);
+  const { users } = db;
   const enrolled = users.filter((usr) =>
     enrollments.some(
       (enrollment) => enrollment.user === usr._id && enrollment.course === cid,
