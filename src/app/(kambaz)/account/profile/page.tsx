@@ -12,9 +12,7 @@ export default function Profile() {
   useEffect(() => {
     if (!currentUser) {
       router.push("/account/signin");
-      return;
     }
-    setProfile(currentUser);
   }, [currentUser, router]);
 
   const signout = () => {
@@ -22,7 +20,8 @@ export default function Profile() {
     router.push("/account/signin");
   };
 
-  if (!profile) return null;
+  if (!profile || !currentUser) return null;
+
   return (
     <div id="wd-profile-screen">
       <h3>Profile</h3>
@@ -31,7 +30,7 @@ export default function Profile() {
         value={profile.username}
         onChange={(e) => setProfile({ ...profile, username: e.target.value })}
       />
-       <br />
+      <br />
       <input
         defaultValue="123"
         placeholder="password"
@@ -41,7 +40,13 @@ export default function Profile() {
         className="wd-password mb-2 w-full rounded border border-neutral-300 px-3 py-2"
       />
       <br />
-      <input defaultValue="Alice" value={profile.firstName} placeholder="First Name" id="wd-firstname" className="mb-2 w-full rounded border border-neutral-300 px-3 py-2" />
+      <input
+        defaultValue="Alice"
+        value={profile.firstName}
+        placeholder="First Name"
+        id="wd-firstname"
+        className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+      />
       <br />
       <input
         defaultValue="Wonderland"
@@ -52,9 +57,22 @@ export default function Profile() {
         className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
       />
       <br />
-      <input defaultValue="alice@wonderland" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })} type="email" id="wd-email" className="mb-2 w-full rounded border border-neutral-300 px-3 py-2" />
+      <input
+        defaultValue="alice@wonderland"
+        value={profile.email}
+        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+        type="email"
+        id="wd-email"
+        className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+      />
       <br />
-      <select defaultValue="FACULTY" value={profile.role} onChange={(e) => setProfile({ ...profile, role: e.target.value })} id="wd-role" className="mb-2 w-full rounded border border-neutral-300 px-3 py-2">
+      <select
+        defaultValue="FACULTY"
+        value={profile.role}
+        onChange={(e) => setProfile({ ...profile, role: e.target.value })}
+        id="wd-role"
+        className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+      >
         <option value="USER">User</option>
         <option value="ADMIN">Admin</option>
         <option value="FACULTY">Faculty</option>
