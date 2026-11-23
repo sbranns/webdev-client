@@ -10,6 +10,20 @@ type AccountContextValue = {
   setCurrentUser: (user: User | null) => void;
 };
 
+export const emptyUser: User = {
+	_id: "",
+	username: "",
+	password: "",
+	firstName: "",
+	lastName: "",
+	email: "",
+	role: "STUDENT",
+	loginId: "",
+	section: "",
+	lastActivity: "",
+	totalActivity: "",
+};
+
 const AccountContext = createContext<AccountContextValue | null>(null);
 
 export function AccountProvider({ children }: { children: ReactNode }) {

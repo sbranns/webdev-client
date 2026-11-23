@@ -1,30 +1,58 @@
 "use client";
-
-import { useState } from "react";
+import * as client from "../courses/client";
+import { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import {
   emptyCourse,
   useCoursesStore,
   type Course,
 } from "../store/coursesStore";
-import * as db from "../database";
+import { useEnrollmentsStore } from "../store/enrollmentsStore";
 import { useAccountContext } from "../account/AccountContext";
 
 export default function Dashboard() {
   const courses = useCoursesStore((state) => state.courses);
+  const setCourses = useCoursesStore((state) => state.setCourses);
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
   const addCourse = useCoursesStore((state) => state.addCourse);
   const updateCourse = useCoursesStore((state) => state.updateCourse);
+  const deleteCourse = useCoursesStore((state) => state.deleteCourse);
+  const enrollments = useEnrollmentsStore((state) => state.enrollments);
+  const setEnrollments = useEnrollmentsStore((state) => state.setEnrollments);
+  const enroll = useEnrollmentsStore((state) => state.enroll);
+  const unenroll = useEnrollmentsStore((state) => state.unenroll);
   const [course, setCourse] = useState<Course>(emptyCourse);
   const [isEnrollments, setIsEnrollments] = useState(false);
   const { currentUser } = useAccountContext();
-  const visibleCourses = currentUser
-    ? courses.filter((c) =>
-        db.enrollments.some(
-          (enrollment) =>
-            enrollment.user === currentUser._id && enrollment.course === c._id,
-        ),
-      )
-    : courses;
+
+  useEffect(() => {
+    const load = async () => {
+      const [enrollmentData, courseData] = await Promise.all([
+        client.fetchAllEnrollments(),
+        isEnrollments ? client.fetchAllCourses() : client.findMyCourses(),
+      ]);
+
+      setEnrollments(enrollmentData);
+      setCourses(courseData);
+    };
+
+    load();
+  }, [currentUser, isEnrollments, setCourses, setEnrollments]);
+
+  const onAddCourse = async () => {
+    const newCourse = await client.createCourse(course);
+    addCourse(newCourse);
+  };
+
+  const onDeleteCourse = async (courseId: string) => {
+    await client.deleteCourse(courseId);
+    deleteCourse(courseId);
+  };
+
+  const onUpdateCourse = async () => {
+    const saved = await client.updateCourse(course);
+    updateCourse(saved);
+  };
 
   return (
     <div id="wd-dashboard">
@@ -36,7 +64,7 @@ export default function Dashboard() {
           type="button"
           className="rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white"
           id="wd-add-new-course-click"
-          onClick={() => addCourse(course)}
+          onClick={onAddCourse}
         >
           Add
         </button>
@@ -44,7 +72,7 @@ export default function Dashboard() {
           type="button"
           className="rounded bg-yellow-400 px-3 py-1.5 text-sm font-medium"
           id="wd-update-course-click"
-          onClick={() => updateCourse(course)}
+          onClick={onUpdateCourse}
         >
           Update
         </button>
@@ -88,9 +116,11 @@ export default function Dashboard() {
         />
       </label>
       <hr />
-      {isEnrollments
-          ? <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
-          : <h2 id="wd-dashboard-published">Published Courses ({visibleCourses.length})</h2>}
+      {isEnrollments ? (
+        <h2 id="wd-dashboard-published">All Courses ({courses.length})</h2>
+      ) : (
+        <h2 id="wd-dashboard-published">My Courses ({courses.length})</h2>
+      )}
       <hr />
       <div
         id="wd-dashboard-courses"
@@ -98,10 +128,20 @@ export default function Dashboard() {
       >
         {isEnrollments
           ? courses.map((c) => (
-              <CourseCard key={c._id} course={c} onEdit={() => setCourse(c)} />
+              <CourseCard
+                key={c._id}
+                course={c}
+                onEdit={() => setCourse(c)}
+                onDelete={() => onDeleteCourse(c._id)}
+              />
             ))
-          : visibleCourses.map((c) => (
-              <CourseCard key={c._id} course={c} onEdit={() => setCourse(c)} />
+          : courses.map((c) => (
+              <CourseCard
+                key={c._id}
+                course={c}
+                onEdit={() => setCourse(c)}
+                onDelete={() => onDeleteCourse(c._id)}
+              />
             ))}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import * as client from "../../client";
 import { useState } from "react";
 import { FaFileAlt } from "react-icons/fa";
 import { useAssignmentsStore } from "../../../store/assignmentsStore";
@@ -9,7 +10,7 @@ export default function AssignmentItem({
   aid,
   title,
   details,
-  isFaculty
+  isFaculty,
 }: {
   cid: string;
   aid: string;
@@ -21,29 +22,36 @@ export default function AssignmentItem({
   const deleteAssignment = useAssignmentsStore(
     (state) => state.deleteAssignment,
   );
+  const onDeleteAssignment = async (assignmentId: string) => {
+    await client.deleteAssignment(assignmentId);
+    deleteAssignment(assignmentId);
+  };
+
   return (
     <li className="wd-assignment-list-item mb-3 flex gap-3 border border-neutral-300 border-l-[3px] border-l-green-600 bg-white p-3">
       <FaFileAlt className="mt-1 shrink-0 text-xl text-green-700" />
       <div>
         {isFaculty ? (
-        <Link
-          href={`/courses/${cid}/assignments/${aid}`}
-          className="wd-assignment-link font-semibold text-neutral-900 no-underline"
-        >
-          {title}
-        </Link>) : (
-          <span className="font-semibold text-neutral-900">{title}</span>)}
+          <Link
+            href={`/courses/${cid}/assignments/${aid}`}
+            className="wd-assignment-link font-semibold text-neutral-900 no-underline"
+          >
+            {title}
+          </Link>
+        ) : (
+          <span className="font-semibold text-neutral-900">{title}</span>
+        )}
         <div className="mt-1 text-sm text-neutral-600">{details}</div>
       </div>
       <div className="ml-auto">
         {isFaculty && (
-        <button>
-          <FaTrash
-            className="cursor-pointer text-red-600"
-            onClick={() => setShow(true)}
-            title="Delete module"
-          />
-        </button>
+          <button>
+            <FaTrash
+              className="cursor-pointer text-red-600"
+              onClick={() => setShow(true)}
+              title="Delete module"
+            />
+          </button>
         )}
       </div>
       {show && (
@@ -75,7 +83,7 @@ export default function AssignmentItem({
               <button
                 type="button"
                 onClick={() => {
-                  deleteAssignment(aid);
+                  onDeleteAssignment(aid);
                   setShow(false);
                 }}
                 className="rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"

@@ -1,17 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
+import * as client from "../courses/client";
 import { useCoursesStore, type Course } from "../store/coursesStore";
-import { useEnrollmentsStore } from "../store/enrollmentsStore";
+import {
+  useEnrollmentsStore,
+  type Enrollment,
+} from "../store/enrollmentsStore";
 import { useAccountContext } from "../account/AccountContext";
 
 export default function CourseCard({
   course,
   onEdit,
+  onDelete,
 }: {
   course: Course;
   onEdit: () => void;
+  onDelete: () => void;
 }) {
-  const deleteCourse = useCoursesStore((state) => state.deleteCourse);
   const { currentUser } = useAccountContext();
 
   const enrollments = useEnrollmentsStore((state) => state.enrollments);
@@ -22,17 +27,23 @@ export default function CourseCard({
     (e) => e.user === currentUser?._id && e.course === course._id,
   );
 
-  function toggleEnrollment() {
+  const onEnroll = async (uid: string, cid: string) => {
+    return await client.enrollIntoCourse(uid, cid);
+  };
+
+  const onUnenroll = async (uid: string, cid: string) => {
+    await client.unenrollFromCourse(uid, cid);
+  };
+
+  async function toggleEnrollment() {
     if (!currentUser) return;
 
     if (enrollment) {
+      await onUnenroll(currentUser._id, course._id);
       unenroll(enrollment._id);
     } else {
-      enroll({
-        _id: "",
-        user: currentUser._id,
-        course: course._id,
-      });
+      const newEnrollment = await onEnroll(currentUser._id, course._id);
+      enroll(newEnrollment);
     }
   }
 
@@ -79,7 +90,7 @@ export default function CourseCard({
             className="ms-2 inline-flex items-center justify-center rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
             onClick={(event) => {
               event.preventDefault();
-              deleteCourse(course._id);
+              onDelete();
             }}
           >
             Delete

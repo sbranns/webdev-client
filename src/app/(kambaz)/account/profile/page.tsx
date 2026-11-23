@@ -1,12 +1,12 @@
 "use client";
-
+import * as client from "../client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAccountContext, type User } from "../AccountContext";
 
 export default function Profile() {
-  const [profile, setProfile] = useState<User | null>(null);
   const { currentUser, setCurrentUser } = useAccountContext();
+  const [profile, setProfile] = useState<User | null>(currentUser);
   const router = useRouter();
 
   useEffect(() => {
@@ -14,6 +14,12 @@ export default function Profile() {
       router.push("/account/signin");
     }
   }, [currentUser, router]);
+
+  const updateProfile = async () => {
+    if (!profile) return;
+    const user = await client.updateUser(profile);
+    setCurrentUser(user);
+  };
 
   const signout = () => {
     setCurrentUser(null);
@@ -32,7 +38,6 @@ export default function Profile() {
       />
       <br />
       <input
-        defaultValue="123"
         placeholder="password"
         value={profile.password}
         onChange={(e) => setProfile({ ...profile, password: e.target.value })}
@@ -41,15 +46,14 @@ export default function Profile() {
       />
       <br />
       <input
-        defaultValue="Alice"
         value={profile.firstName}
+        onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
         placeholder="First Name"
         id="wd-firstname"
         className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
       />
       <br />
       <input
-        defaultValue="Wonderland"
         value={profile.lastName}
         onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
         placeholder="Last Name"
@@ -58,16 +62,15 @@ export default function Profile() {
       />
       <br />
       <input
-        defaultValue="alice@wonderland"
         value={profile.email}
         onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+        placeholder="email"
         type="email"
         id="wd-email"
         className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
       />
       <br />
       <select
-        defaultValue="FACULTY"
         value={profile.role}
         onChange={(e) => setProfile({ ...profile, role: e.target.value })}
         id="wd-role"
@@ -82,6 +85,7 @@ export default function Profile() {
       <button type="button" onClick={signout} id="wd-signout-btn">
         Sign out
       </button>
+      <button type="button" onClick={updateProfile} id="wd-update-profile-btn">Save profile</button>
     </div>
   );
 }

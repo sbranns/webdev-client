@@ -21,7 +21,8 @@ export type CourseModule = {
 
 type ModulesStore = {
   modules: CourseModule[];
-  addModule: (module: { name: string; course: string }) => void;
+  addModule: (module: CourseModule) => void;
+  setModules: (modules: CourseModule[]) => void;
   deleteModule: (moduleId: string) => void;
   updateModule: (module: CourseModule) => void;
   editModule: (moduleId: string) => void;
@@ -31,17 +32,9 @@ export const useModulesStore = create<ModulesStore>((set) => ({
   modules: modulesJson as CourseModule[],
   addModule: (module) =>
     set((state) => ({
-      modules: [
-        ...state.modules,
-        {
-          _id: crypto.randomUUID(),
-          name: module.name,
-          description: "",
-          course: module.course,
-          lessons: [],
-        },
-      ],
+      modules: [...state.modules, module],
     })),
+  setModules: (modules) => set({ modules }),
   deleteModule: (moduleId) =>
     set((state) => ({
       modules: state.modules.filter((m) => m._id !== moduleId),

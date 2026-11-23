@@ -1,4 +1,5 @@
 "use client";
+import * as client from "../../../client";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Assignment } from "@/app/(kambaz)/store/assignmentsStore";
@@ -7,7 +8,8 @@ import { useAssignmentsStore } from "../../../../store/assignmentsStore";
 export default function AssignmentEditor() {
   const router = useRouter();
   const { cid, aid } = useParams();
-
+  const courseId = String(cid);
+    
   const addAssignment = useAssignmentsStore((state) => state.addAssignment);
   const updateAssignment = useAssignmentsStore(
     (state) => state.updateAssignment,
@@ -15,11 +17,13 @@ export default function AssignmentEditor() {
 
   const assignments = useAssignmentsStore((state) => state.assignments);
 
-  const handleSave = (assignment: Assignment) => {
+  const handleSave = async (assignment: Assignment) => {
     if (aid === "new") {
-      addAssignment(assignment);
+      const created = await client.createAssignmentForCourse(courseId, assignment);
+      addAssignment(created);
     } else {
-      updateAssignment(assignment);
+      const saved = await client.updateAssignment(assignment);
+      updateAssignment(saved);
     }
     router.push(`/courses/${cid}/assignments`)
   };

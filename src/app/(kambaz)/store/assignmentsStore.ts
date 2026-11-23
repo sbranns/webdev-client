@@ -4,13 +4,13 @@ import { create } from "zustand";
 import assignmentsJson from "../database/assignments.json";
 
 export type Assignment = {
-    _id: string,
-    title: string,
-    course: string,
-    description: string,
-    points: number,
-    due: string,
-    available: string
+  _id: string;
+  title: string;
+  course: string;
+  description: string;
+  points: number;
+  due: string;
+  available: string;
 };
 
 type AssignmentsStore = {
@@ -19,24 +19,25 @@ type AssignmentsStore = {
   deleteAssignment: (assignmentId: string) => void;
   updateAssignment: (assignment: Assignment) => void;
   editAssignment: (assignmentId: string) => void;
+  setAssignments: (assignments: Assignment[]) => void;
 };
 
 export const useAssignmentsStore = create<AssignmentsStore>((set) => ({
   assignments: assignmentsJson as Assignment[],
   addAssignment: (assignment) =>
     set((state) => ({
-      assignments: [
-        ...state.assignments,
-        { ...assignment, _id: crypto.randomUUID() }
-      ],
+      assignments: [...state.assignments, assignment],
     })),
+  setAssignments: (assignments: Assignment[]) => set({ assignments }),
   deleteAssignment: (assignmentId) =>
     set((state) => ({
       assignments: state.assignments.filter((a) => a._id !== assignmentId),
     })),
   updateAssignment: (assignment) =>
     set((state) => ({
-      assignments: state.assignments.map((a) => (a._id === assignment._id ? assignment : a)),
+      assignments: state.assignments.map((a) =>
+        a._id === assignment._id ? assignment : a,
+      ),
     })),
   editAssignment: (assignmentId) =>
     set((state) => ({

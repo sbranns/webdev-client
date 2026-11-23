@@ -1,23 +1,31 @@
 "use client";
+import * as client from "../../client";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import AssignmentItem from "./AssignmentItem";
 import { useParams, useRouter } from "next/navigation";
-import { useAssignmentsStore } from "../../../store/assignmentsStore";
+import { Assignment, useAssignmentsStore } from "../../../store/assignmentsStore";
 import { useAccountContext } from "@/app/(kambaz)/account/AccountContext";
+import { useEffect } from "react";
 
 export default function Assignments() {
   const { cid } = useParams();
+  const courseId = String(cid);
   const router = useRouter();
 
   const { currentUser } = useAccountContext();
   const isFaculty = currentUser?.role === "FACULTY";
-  console.log(isFaculty)
 
   const allAssignments = useAssignmentsStore((state) => state.assignments);
+  const setAssignments = useAssignmentsStore((state) => state.setAssignments);
 
-  const assignments = allAssignments.filter(
-    (assignment) => assignment.course === cid,
-  );
+  useEffect(() => {
+    const load = async () => {
+      setAssignments(await client.findAssignmentsForCourse(courseId));
+      console.log(allAssignments);
+    };
+    load();
+  }, [courseId]);
+
   return (
     <div id="wd-assignments">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
@@ -32,22 +40,22 @@ export default function Assignments() {
         <div className="flex gap-2">
           {isFaculty && (
             <>
-          <button
-            id="wd-add-assignment-group"
-            type="button"
-            className="inline-flex items-center gap-1 rounded border px-3 py-1.5 text-sm"
-          >
-            <FaPlus /> Group
-          </button>
-          <button
-            id="wd-add-assignment"
-            type="button"
-            className="inline-flex items-center gap-1 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
-            onClick={() => router.push(`/courses/${cid}/assignments/new`)}
-          >
-            <FaPlus /> Assignment
-          </button>
-          </>
+              <button
+                id="wd-add-assignment-group"
+                type="button"
+                className="inline-flex items-center gap-1 rounded border px-3 py-1.5 text-sm"
+              >
+                <FaPlus /> Group
+              </button>
+              <button
+                id="wd-add-assignment"
+                type="button"
+                className="inline-flex items-center gap-1 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
+                onClick={() => router.push(`/courses/${cid}/assignments/new`)}
+              >
+                <FaPlus /> Assignment
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -64,7 +72,7 @@ export default function Assignments() {
         </button>
       </h3>
       <ul id="wd-assignment-list" className="m-0 list-none p-0">
-        {assignments.map((assignment) => (
+        {allAssignments.map((assignment) => (
           <AssignmentItem
             key={assignment._id}
             cid={String(cid)}

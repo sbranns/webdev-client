@@ -5,8 +5,12 @@ import { CourseModule, useModulesStore } from "../../../store/modulesStore";
 export default function Module({
   module,
   children,
+  onDelete,
+  onUpdate
 }: {
   module: CourseModule;
+  onDelete: (moduleId: string) => void;
+  onUpdate: (module: CourseModule) => void;
   children?: ReactNode;
 }) {
   const updateModule = useModulesStore((state) => state.updateModule)
@@ -23,13 +27,14 @@ export default function Module({
 						onKeyDown={(e) => {
 							if (e.key === "Enter") {
 								updateModule({ ...module, editing: false });
+								onUpdate(module);
 							}
 						}}
 					/>
 				) : (
 					<span>{module.name}</span>
 				)}
-        <ModuleControlButtons moduleId={module._id} />
+        <ModuleControlButtons moduleId={module._id} onDelete={onDelete} />
       </div>
       <ul className="wd-lessons m-0 list-none p-0">{children}</ul>
     </li>
