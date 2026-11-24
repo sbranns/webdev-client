@@ -1,18 +1,19 @@
-
 "use client";
 import { useEffect, useState } from "react";
 import * as client from "./client";
 
 export default function WorkingWithRemoteObjectsAsync() {
-  const [assignment, setAssignment] = useState({title: ""});
-  const fetchAssignment = async () => {
-    setAssignment(await client.fetchAssignment());
-  };
+  const [assignment, setAssignment] = useState({ title: "" });
   const updateTitle = async () => {
     setAssignment(await client.updateTitle(assignment.title));
   };
   useEffect(() => {
-    fetchAssignment();
+    const loadAssignment = async () => {
+      const data = await client.fetchAssignment();
+      setAssignment(data);
+    };
+
+    loadAssignment();
   }, []);
 
   return (

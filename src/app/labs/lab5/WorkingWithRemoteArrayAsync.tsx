@@ -4,16 +4,28 @@ import * as client from "./client";
 import { FaTrash } from "react-icons/fa6";
 import { FaPencilAlt, FaPlusCircle } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
+import { AxiosError } from "axios";
+
+type Todo = {
+  id: number;
+  title?: string;
+  description?: string;
+  completed?: boolean;
+};
 
 export default function WorkingWithRemoteArrayAsync() {
-  const [todos, setTodos] = useState([{ id: "", title: "", completed: false }]);
-  const fetchTodos = async () => {
-    setTodos(await client.fetchTodos());
-  };
+  const [todos, setTodos] = useState<Todo[]>([
+    { id: 0, title: "", completed: false },
+  ]);
   useEffect(() => {
-    fetchTodos();
+    const loadTodos = async () => {
+      const data = await client.fetchTodos();
+      setTodos(data);
+    };
+
+    loadTodos();
   }, []);
-  const removeTodo = async (todo) => {
+  const removeTodo = async (todo: Todo) => {
     setTodos(await client.removeTodo(todo));
   };
   const createNewTodo = async () => {
@@ -26,22 +38,26 @@ export default function WorkingWithRemoteArrayAsync() {
     });
     setTodos([...todos, newTodo]);
   };
-  const editTodo = (todo) => {
+  const editTodo = (todo: Todo) => {
     setTodos(
       todos.map((t) => (t.id === todo.id ? { ...todo, editing: true } : t)),
     );
   };
-  const updateTodo = async (todo) => {
+  const updateTodo = async (todo: Todo) => {
     await client.updateTodo(todo);
     setTodos(todos.map((t) => (t.id === todo.id ? todo : t)));
   };
-  const [errorMessage, setErrorMessage] = useState(null);
-  const deleteTodo = async (todo) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const deleteTodo = async (todo: Todo) => {
     try {
       await client.deleteTodo(todo);
       setTodos(todos.filter((t) => t.id !== todo.id));
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      if (error instanceof AxiosError) {
+        setErrorMessage(error.response?.data?.message || error.message);
+      } else {
+        setErrorMessage("An unexpected error occurred.");
+      }
     }
   };
   return (
