@@ -1,10 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import * as client from "../courses/client";
-import { useCoursesStore, type Course } from "../store/coursesStore";
+import { type Course } from "../store/coursesStore";
 import {
   useEnrollmentsStore,
-  type Enrollment,
 } from "../store/enrollmentsStore";
 import { useAccountContext } from "../account/AccountContext";
 

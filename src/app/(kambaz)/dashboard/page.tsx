@@ -13,14 +13,10 @@ import { useAccountContext } from "../account/AccountContext";
 export default function Dashboard() {
   const courses = useCoursesStore((state) => state.courses);
   const setCourses = useCoursesStore((state) => state.setCourses);
-  const [allCourses, setAllCourses] = useState<Course[]>([]);
   const addCourse = useCoursesStore((state) => state.addCourse);
   const updateCourse = useCoursesStore((state) => state.updateCourse);
   const deleteCourse = useCoursesStore((state) => state.deleteCourse);
-  const enrollments = useEnrollmentsStore((state) => state.enrollments);
   const setEnrollments = useEnrollmentsStore((state) => state.setEnrollments);
-  const enroll = useEnrollmentsStore((state) => state.enroll);
-  const unenroll = useEnrollmentsStore((state) => state.unenroll);
   const [course, setCourse] = useState<Course>(emptyCourse);
   const [isEnrollments, setIsEnrollments] = useState(false);
   const { currentUser } = useAccountContext();
