@@ -8,6 +8,9 @@ export default function HelloRoute() {
     client.fetchHello().then(setHello);
   }, []);
   return (
+    <>
+    <h3 className="text-xl font-bold">Hello Route</h3>
     <pre>{JSON.stringify(hello)}</pre>
+    </>
   );
 }

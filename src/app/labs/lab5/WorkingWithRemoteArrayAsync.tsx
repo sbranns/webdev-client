@@ -62,6 +62,7 @@ export default function WorkingWithRemoteArrayAsync() {
   };
   return (
     <>
+      <h3 className="text-xl font-bold">Working with remote array async</h3>
       {errorMessage && (
         <p
           id="wd-todo-error-message"
@@ -82,34 +83,37 @@ export default function WorkingWithRemoteArrayAsync() {
       />
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>
+          <li key={todo.id} className="flex items-center gap-3 mb-2">
             <input type="checkbox" defaultChecked={todo.completed} />
+
             <span className={todo.completed ? "line-through" : ""}>
               {todo.title}
             </span>
+
             <FaTrash
               onClick={() => removeTodo(todo)}
               id="wd-remove-todo"
               className="cursor-pointer text-red-600"
             />
+
             <TiDelete
               onClick={() => deleteTodo(todo)}
               id="wd-delete-todo"
               className="cursor-pointer text-2xl text-red-600"
             />
-            <div>
-              <FaPencilAlt
-                onClick={() => editTodo(todo)}
-                className="cursor-pointer text-blue-600"
-              />
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={(e) =>
-                  updateTodo({ ...todo, completed: e.target.checked })
-                }
-              />
-            </div>
+
+            <FaPencilAlt
+              onClick={() => editTodo(todo)}
+              className="cursor-pointer text-blue-600"
+            />
+
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={(e) =>
+                updateTodo({ ...todo, completed: e.target.checked })
+              }
+            />
           </li>
         ))}
       </ul>

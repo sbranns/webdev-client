@@ -22,7 +22,7 @@ export default function WorkingWithRemoteObjects() {
       >
         Get Assignment
       </a>
-      <h4>Retrieving Properties</h4>
+      <h3 className="text-xl font-bold">Retrieving Properties</h3>
       <a
         id="wd-retrieve-assignment-title"
         className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white"

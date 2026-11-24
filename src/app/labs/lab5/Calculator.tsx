@@ -42,6 +42,7 @@ export default function CalculatorNextWebApiClient() {
 
   return (
     <div>
+      <h3 className="text-xl font-bold">Calculator</h3>
       <label>
         A:{" "}
         <input

@@ -20,7 +20,7 @@ export default function WorkingWithRemoteObjects() {
       >
         Get Module
       </a>
-      <h4>Retrieving Module Properties</h4>
+      <h3 className="text-xl font-bold">Retrieving Module Propertiesc</h3>
       <a
         id="wd-retrieve-module-name"
         className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white"

@@ -24,6 +24,7 @@ export default function HttpClient() {
 
 	return (
 		<>
+		<h3 className="text-xl font-bold">Fetch Welcome</h3>
 			<button type="button" onClick={fetchWelcomeOnClick}>
 				Fetch Welcome
 			</button>

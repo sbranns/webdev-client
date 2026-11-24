@@ -18,6 +18,7 @@ export default function WorkingWithRemoteObjectsAsync() {
 
   return (
     <>
+    <h3 className="text-xl font-bold">Working with remote objects async</h3>
       <button
         id="wd-update-assignment-title"
         className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white"

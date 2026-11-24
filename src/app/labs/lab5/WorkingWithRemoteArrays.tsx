@@ -12,6 +12,7 @@ export default function WorkingWithRemoteArrays() {
   const API = `${HTTP_SERVER}/lab5/todos`;
   return (
     <>
+    <h3 className="text-xl font-bold">Working with remote array async</h3>
       <a
         id="wd-retrieve-todo-by-id"
         className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white"

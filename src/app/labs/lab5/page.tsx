@@ -15,7 +15,7 @@ export default function Lab5() {
 
   return (
     <div id="wd-lab5">
-      <h2>Lab 5</h2>
+      <h1 className="text-xl font-bold">Lab 5</h1>
       <a
         id="wd-welcome-link"
         href={`${HTTP_SERVER}/lab5/welcome`}

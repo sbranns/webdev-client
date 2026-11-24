@@ -34,6 +34,12 @@ const LINKS = [
     label: "Lab 4",
     match: (p: string) => p.includes("/lab4"),
   },
+  {
+    href: "/labs/lab5",
+    id: "wd-lab5-link",
+    label: "Lab 5",
+    match: (p: string) => p.includes("/lab5"),
+  },
   { href: "/", id: "wd-kambaz-link", label: "Kambaz", match: () => false },
   {
     href: "https://kambaz.dev/book/ch3",
@@ -56,7 +62,10 @@ export default function TOC() {
   return (
     <>
       <p>Samuel Brannstrom</p>
-      <a href="https://github.com/sbranns/webdev-client">My Github</a>
+      <a href="https://github.com/sbranns/webdev-client/tree/a5">My Client Github</a>
+      <a href="https://github.com/sbranns/webdev-server/tree/a5">My Server Github</a>
+      <a href="https://webdev-client-git-a5-webdev-313c.vercel.app/">My Vercel</a>
+      <a href="https://webdev-server-ipcy.onrender.com">My Render</a>
       <ul>
         {LINKS.map((link) => {
           const active = link.match(pathname);
